@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+
+{% block style %} <link rel="stylesheet" href="static/css/error.css"> {% endblock %}
+{% block title %}
+    Error
+{% endblock %}
+
+{% block main %}
+
+
+<h1 class ='error'> Error Occured ! <p> {{error}}  <a href="{{direction}}"> Go back and try again !  </a>  </p>
+</h1>
+
+{% endblock %}
