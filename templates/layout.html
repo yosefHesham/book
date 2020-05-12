@@ -13,9 +13,11 @@
         <a href="#"> <h1> Readers<span>HUB</span>  </h1></a>
        
         <nav>
+            {% if session.user_id %}
             <ul>
-                <li> <a class = "items" href="#"> Home </a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
+            {% endif %}
 
         </nav> 
     </header>

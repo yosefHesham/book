@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -53,15 +53,22 @@ def login():
         return render_template("login.html")
     
     else:
-
-        username = request.form['name']
+        session.clear()    
+        username = request.form['username']
         password = request.form['password']
-        
+        row = db.execute("Select id, username, hash from users where username = :username", {'username':username}).fetchone()
         if not username.strip():
             return render_template('error.html',error='Username cannot be empty!', direction='/login')
         elif not password.strip():
             return render_template('error.html',error='Password cannot be empty!', direction='/login')
-                
+        elif row == None or not check_password_hash(row[2], password):
+            return render_template('error.html',error='wrong password or username', direction='/login')
+        
+        session['user_id'] = row[0]
+        print('###logged in', row[0])
+
+        return redirect('/')
+
 
 
 
@@ -114,3 +121,12 @@ def register():
 
     
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
