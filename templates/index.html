@@ -2,3 +2,22 @@
 
 
 {% block title %} Home {% endblock %}
+
+
+{% block main %}
+
+<form action="/" method="POST">
+    <fieldset>
+      <legend>Find your desired book</legend>
+      <label for="title">Find By Title</label>
+      <input type="text"  name="title" placeholder="ie.. The lord of te rings"><br><br>
+      <label for="author">Find By Author</label>
+      <input type="text"  name="author" placeholder="ie.. J.J.R Tolkien"><br><br>
+      <label for="ISBN">Find By ISBN </label>
+      <input type="text" name="isbn" placeholder="ie.. 0380795272"><br><br>
+     
+    </fieldset>
+  </form>
+
+
+{% endblock %}
