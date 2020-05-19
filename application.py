@@ -8,6 +8,7 @@ from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 import requests
 from helpers import login_required
+from models.books import Books
 
 app = Flask(__name__)
 
@@ -38,12 +39,30 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/")
+@app.route("/", methods = ['GET', 'POST'])
 @login_required
 def index():
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "3ZdRtZuPYHNnTuIgTI7QHw", "isbns":"9781632168146"})
-    print(res.json())
-    return render_template("index.html")
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    else:
+        title = request.form['title']
+        author = request.form['author']
+        isbn  = request.form['isbn']
+       
+        if not title.strip() and not author.strip() and not isbn.strip():
+            return render_template('error.html', error = 'You must at least provide one info', direction = '/')
+
+    return title + author + isbn 
+
+
+
+@app.route('/bookpage')
+@login_required
+def bookpage():
+
+        return render_template("bookpage.html")
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
