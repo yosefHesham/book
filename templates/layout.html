@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title> {% block title %} {% endblock %}</title>
     {% block style %} {% endblock %}
@@ -15,7 +15,10 @@
         <nav>
             {% if session.user_id %}
             <ul>
+                <li class="nav-item"><a class="nav-link" href="/bookpage">Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Search</a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+
             </ul>
             {% endif %}
 

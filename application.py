@@ -6,9 +6,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
-import requests
-from helpers import login_required
+from helpers import login_required, get_reviews
 from models.books import Books
+from models.defaultbooks import Defbooks
+from models.reviews import Review
+import requests
+
+
 
 app = Flask(__name__)
 
@@ -20,7 +24,6 @@ def after_request(response):
     return response
 
 
-## api key :3ZdRtZuPYHNnTuIgTI7QHw
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -39,6 +42,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
+
 @app.route("/", methods = ['GET', 'POST'])
 @login_required
 def index():
@@ -49,19 +53,72 @@ def index():
         title = request.form['title']
         author = request.form['author']
         isbn  = request.form['isbn']
+        row = None
+        books = list()
        
         if not title.strip() and not author.strip() and not isbn.strip():
             return render_template('error.html', error = 'You must at least provide one info', direction = '/')
+        elif title.strip():
+            row = db.execute("select author, title, isbn from books where title like :title",{'title':"%"+title+"%"}).fetchall()
+        elif author.strip():
+            row = db.execute("select author, title, isbn from books where author like :author",{'author':"%"+author+"%"}).fetchall()
+        elif isbn.strip():
+            row = db.execute("select author, title, isbn from books where isbn like :isbn",{'isbn':"%"+isbn+"%"}).fetchall()
 
-    return title + author + isbn 
+        if not row == None:    
+            for i in range(len(row)):
+                oneBook = Defbooks(
+                    row[i]['author'],
+                    row[i]['title'],
+                    row[i]['isbn']
+                )
+                books.append(oneBook)
 
+        return render_template("result.html", books=books)
+
+        
+    return render_template("result.html")
+
+
+
+
+@app.route('/bookdetails/<string:book_isbn>')
+def bookdetails(book_isbn):
+    try:
+        book = db.execute("select * from books where isbn = :isbn", {'isbn':book_isbn}).fetchone()
+    except:
+        return render_template("error.html", error="error fetching data",direction="/bookpage")    
+    oneBook = Books(
+        int(book['id']),
+        book['author'],
+        book['title'],
+        book_isbn,
+        book['year']
+    )
+    
+    greview = get_reviews(book_isbn)
+    print(greview)
+    return render_template("bookdetails.html", book=book,greview=greview)
 
 
 @app.route('/bookpage')
 @login_required
 def bookpage():
+    row = None
+    books = list()
+    try:
+        row =  db.execute("select isbn, title, author from books limit 300").fetchall()
+        for i in range (len(row)):
+            oneBook = Defbooks(
+                row[i]['author'],
+                row[i]['title'],
+                row[i]['isbn'],
+                )
+            books.append(oneBook)
+    except ValueError as e:
+        return render_template("error.html",error="error while fetching data", direction = "/")
 
-        return render_template("bookpage.html")
+    return render_template("bookpage.html", books=books)
 
 
 

@@ -1,0 +1,46 @@
+main{
+    height: 100%;
+}
+.card{
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 3%;
+    border: crimson;
+    background-color: wheat;
+    border-style: solid;
+    border-width: 2px;
+    width: 40%;
+
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.cardinfo{
+    margin-top: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+h5, h6{
+    color: brown;
+    
+
+}
+img{
+    height: 100%;
+}
+
+.cardinfo span{
+    color: saddlebrown;
+    font-style: bold;
+    display: inline-block;
+}
+.img span{
+    color: saddlebrown;
+    font-style: bold;
+
+}

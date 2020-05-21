@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block title %} Details {% endblock %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/bookpage.css')}}"> 
+    
+{% endblock %}
+
+
+{% block main %}
+
+<div class ="cont">
+    <div class ='card'>
+        <div class = "img"><img src="http://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg"
+            alt="book">
+            <p><a href="https://www.goodreads.com"> GoodReads Reveiws</a></p>
+            <h6>Average rating: <span>{{greview.average_rating}}</span></h6>
+            <h6>Rating count: <span>{{greview.rating_count}}</span> </h6>
+        </div>
+        
+         <div class="cardinfo">
+             <h5>Author: <span>{{book.author}}</span></h5>
+            <h6>Title: <span>{{book.title}}</span></h6>
+            <h6>Publication Year: <span>{{book.year}}</span></h6>
+            <h6>iSBN: <span>{{book.isbn}}</span></h6>
+            
+            
+         </div>
+    
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

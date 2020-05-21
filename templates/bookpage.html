@@ -1,13 +1,27 @@
 {% extends 'layout.html' %}
 {% block title %} Books {% endblock %}
 
+{% block style %} <link rel="stylesheet" href="static/css/bookpage.css"> {% endblock %}
+
 
 {% block main %}
 
-<div class ='card'>
-
+{% for book in books %}
+<div class ="cont">
+    <div class ='card'>
+        <a href="{{ url_for('bookdetails',book_isbn=book.isbn) }}"><div class = "img"><img src="http://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg"
+            alt="book"></div></a>
+        
+         <div class="cardinfo">
+             <h5>Author: <span>{{book.author}}</span></h5>
+             
+            <h6>Title: <span>{{book.title}}</span></h6>
+         </div>
     
+    </div>
 </div>
 
+
+{% endfor %}
 
 {% endblock %}

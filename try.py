@@ -1,22 +1,11 @@
 from application import db
 import requests
-name = "rousef"
-apiKey ='AIzaSyA9yMVvxWwADV57ZPAS7vuiCcTvR0LKV1Y'
-covers = dict()
-count = 0
-row = db.execute("select isbn from books where lower(title)  like :title", {'title':  name[0] + "%" }).fetchall()
-res = requests.Session
-print(len(row))
-for i in range (len(row)):
-    api_endpoint = "https://www.googleapis.com/books/v1/volumes?q=isbn:{}&key={}".format(row[i]['isbn'],apiKey)
-    res = requests.get(api_endpoint)
-    result = res.json()
-    print(res.url)
-    count = count + 1
-    print("## {} ##".format(count))
-    #entry = result['items'][0]['volumeInfo']['imageLinks']['thumbnail']
-    #print(entry)
-    #covers[row[i]['isbn']] = entry
+
+
+api_key = "3ZdRtZuPYHNnTuIgTI7QHw"
+res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": api_key, "isbns": "0060096187"})
+data = res.json()
+print(data['books'][0]['average_rating'] + " ss" + data['books'][0]['work_reviews_count'])
 
 
 
