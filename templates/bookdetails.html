@@ -1,33 +1,55 @@
 {% extends 'layout.html' %}
 {% block title %} Details {% endblock %}
 
-{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/bookpage.css')}}"> 
-    
+{% block style %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bookdetails.css')}}">
+
 {% endblock %}
 
 
 {% block main %}
 
-<div class ="cont">
-    <div class ='card'>
-        <div class = "img"><img src="http://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg"
-            alt="book">
-            <p><a href="https://www.goodreads.com"> GoodReads Reveiws</a></p>
-            <h6>Average rating: <span>{{greview.average_rating}}</span></h6>
-            <h6>Rating count: <span>{{greview.rating_count}}</span> </h6>
-        </div>
-        
-         <div class="cardinfo">
-             <h5>Author: <span>{{book.author}}</span></h5>
-            <h6>Title: <span>{{book.title}}</span></h6>
-            <h6>Publication Year: <span>{{book.year}}</span></h6>
-            <h6>iSBN: <span>{{book.isbn}}</span></h6>
-            
-            
-         </div>
+<div class='stand'>
+    <div class="cont">
+        <div class='car'>
+            <div class="card"><img src="http://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" alt="book">
+                <p><a href="https://www.goodreads.com"> GoodReads Rating</a></p>
+                <h6>Average rating: <span>{{greview.average_rating}}</span></h6>
+                <h6>Rating count: <span>{{greview.rating_count}}</span> </h6>
     
+         </div> 
+
+            <div class="cardinfo">
+                <h5>Author: <span>{{book.author}}</span></h5>
+                <h6>Title: <span>{{book.title}}</span></h6>
+                <h6>Publication Year: <span>{{book.year}}</span></h6>
+                <h6>iSBN: <span>{{book.isbn}}</span></h6>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class ="reviews">
+        <form class = "form-group" action="/bookdetails/{{book.isbn}}", method="POST">
+            <fieldset>
+              <legend>Leave a review</legend>
+              <label for="f">Rate: </label>
+              <input type="radio" id="1" name="rate" value="1">
+              <label for="1">1</label>
+              <input type="radio" id="2" name="rate" value="2">
+              <label for="2">2</label>
+              <input type="radio" id="3" name="rate" value="3">
+              <label for="3">3</label>
+              <input type="radio" id="4" name="rate" value="4">
+              <label for="4">4</label>
+              <input type="radio" id="5" name="rate" value="5">
+              <label for="5">5</label>
+              <br>
+              <textarea name="review" id="" cols="70" rows="10"></textarea>
+              <button class="btn btn-primary" type="submit">Leave a comment</button>  
+            </fieldset>
+          </form>
+    </div>
 </div>
 
 

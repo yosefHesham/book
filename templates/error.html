@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 
-{% block style %} <link rel="stylesheet" href="static/css/error.css"> {% endblock %}
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css')}}"> {% endblock %}
 {% block title %}
     Error
 {% endblock %}

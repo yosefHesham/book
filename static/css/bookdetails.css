@@ -1,0 +1,83 @@
+body{
+    width: 100%;
+    height: 100%;
+}
+
+.stand, .img{
+    display: flex;
+    flex-direction: column;
+
+
+}
+.car{
+    margin-left: 50%;
+    margin-top: 3%;
+    border: crimson;
+    background-color: wheat;
+    border-style: solid;
+    border-width: 2px;
+    width: 50%;
+    height: .5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cardinfo{
+    margin-top: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+h5, h6{
+    color: brown;
+}
+.card{
+    background-color: wheat;
+    border: none;
+}
+.reviews{
+    width: 80%;
+    margin-left: 40%;
+    margin-top: 1%;
+}
+
+fieldset {
+    margin-top: 4%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color:burlywood;
+  }
+  
+  legend {
+   
+    background-color: brown;
+    color: white;
+    padding: 10px 10px;
+    
+  }
+
+label, input{
+    margin-left: 2%;
+}
+
+textarea{
+    border: orangered;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+textarea:focus{
+    outline: none !important
+}
+
+.btn{
+    background-color: brown;
+    margin-left: 1%;
+    margin-bottom: 5%;
+}
+.btn:hover{
+    background-color: crimson;
+}

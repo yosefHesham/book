@@ -7,6 +7,7 @@
 {% block main %}
 
 {% for book in books %}
+
 <div class ="cont">
     <div class ='card'>
         <a href="{{ url_for('bookdetails',book_isbn=book.isbn) }}"><div class = "img"><img src="http://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg"

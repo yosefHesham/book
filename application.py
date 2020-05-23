@@ -59,9 +59,9 @@ def index():
         if not title.strip() and not author.strip() and not isbn.strip():
             return render_template('error.html', error = 'You must at least provide one info', direction = '/')
         elif title.strip():
-            row = db.execute("select author, title, isbn from books where title like :title",{'title':"%"+title+"%"}).fetchall()
+            row = db.execute("select author, title, isbn from books where title like :title or title like :xtitle",{'title':"%"+title+"%", 'xtitle':"%" +title.swapcase()+"%"}).fetchall()
         elif author.strip():
-            row = db.execute("select author, title, isbn from books where author like :author",{'author':"%"+author+"%"}).fetchall()
+            row = db.execute("select author, title, isbn from books where author like :author or author like :xauthor",{'author':"%"+author+"%",'xauthor':"%" + author.swapcase() + "%"}).fetchall()
         elif isbn.strip():
             row = db.execute("select author, title, isbn from books where isbn like :isbn",{'isbn':"%"+isbn+"%"}).fetchall()
 
@@ -82,23 +82,44 @@ def index():
 
 
 
-@app.route('/bookdetails/<string:book_isbn>')
+@app.route('/bookdetails/<string:book_isbn>', methods=['GET','POST'])
 def bookdetails(book_isbn):
-    try:
-        book = db.execute("select * from books where isbn = :isbn", {'isbn':book_isbn}).fetchone()
-    except:
-        return render_template("error.html", error="error fetching data",direction="/bookpage")    
-    oneBook = Books(
-        int(book['id']),
-        book['author'],
-        book['title'],
-        book_isbn,
-        book['year']
-    )
-    
-    greview = get_reviews(book_isbn)
-    print(greview)
-    return render_template("bookdetails.html", book=book,greview=greview)
+
+    if request.method == 'POST':
+        row = db.execute("select id from books where isbn = :isbn ",{'isbn':book_isbn}).fetchone()
+        book_id = row[0]
+        rating = request.form['rate']
+        review = request.form['review']
+        print(rating)
+        print(review)
+        if rating == None or not review.strip():
+            return render_template('error.html',error="you must provide both rate and review !", direction = "/bookpage")
+        
+        else:
+            try:
+                db.execute('insert into reviews(bookid,userid,review,rating) VALUES(:book_id,:user_id,:review,:rating)',
+                {'book_id':book_id,'user_id':session['user_id'],'review':review,'rating':rating}
+                )
+                db.commit()
+                return redirect(request.referrer)
+            except:
+                return render_template("error.html",error="you already made a review on this book", direction="/bookpage")  
+    else:                
+        try:
+            book = db.execute("select * from books where isbn = :isbn", {'isbn':book_isbn}).fetchone()
+        except:
+            return render_template("error.html", error="error fetching data",direction="/bookpage")    
+        oneBook = Books(
+            int(book['id']),
+            book['author'],
+            book['title'],
+            book_isbn,
+            book['year']
+        )
+        
+        greview = get_reviews(book_isbn)
+        print(greview)
+        return render_template("bookdetails.html", book=book,greview=greview)
 
 
 @app.route('/bookpage')

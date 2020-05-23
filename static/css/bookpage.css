@@ -1,6 +1,4 @@
-main{
-    height: 100%;
-}
+
 .card{
     margin-left: 30%;
     margin-right: 30%;
@@ -10,7 +8,6 @@ main{
     border-style: solid;
     border-width: 2px;
     width: 40%;
-
     height: 5%;
     display: flex;
     flex-direction: row;
@@ -42,5 +39,4 @@ img{
 .img span{
     color: saddlebrown;
     font-style: bold;
-
 }
