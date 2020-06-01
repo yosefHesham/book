@@ -49,6 +49,13 @@
               <button class="btn btn-primary" type="submit">Leave a comment</button>  
             </fieldset>
           </form>
+          {% for review in reviews %}
+          <div class ="user_reviews">
+            <p class ='user_data'> By: {{review.username}},  rating:  {{review.rating}}</p>
+            <p class = "user_review"> {{review.post}} </p>            
+          </div>
+         
+          {% endfor %}
     </div>
 </div>
 

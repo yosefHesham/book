@@ -81,3 +81,23 @@ textarea:focus{
 .btn:hover{
     background-color: crimson;
 }
+.user_reviews{
+    width: 70%;
+    height: 20%;
+    margin: auto auto;
+    border-color: wheat;
+    border-width: 1px;
+    border-style: solid;
+    margin-top: 2%;
+}
+.user_data{
+    font-size: 18px;
+    font-style: oblique;
+    font-weight: 200;
+    color: brown;
+}
+.user_review{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+}
